@@ -1,0 +1,3 @@
+# MMB-BLOGGING PROJECT
+
+## Structure
