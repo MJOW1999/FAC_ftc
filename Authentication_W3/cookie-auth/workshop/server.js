@@ -4,7 +4,7 @@ const server = express();
 
 const cookieParser = require("cookie-parser");
 
-server.use(cookieParser());
+server.use(cookieParser("alongrandomstringnobodyelseknows"));
 
 // server.get("/example", (request, response) => {
 //   response.cookie("hello", "this is my cookie", {
@@ -27,7 +27,7 @@ server.use(cookieParser());
 // });
 
 server.get("/", (request, response) => {
-  console.log(request.cookies);
+  console.log(request.signedCookies);
   response.send("<h1>Hello</h1>");
 });
 
@@ -56,10 +56,20 @@ server.get("/logout", (request, response) => {
   response.redirect("/");
 });
 
-let sessions = {};
+// let sessions = {};
 
-// later
-sessions["abcd"] = { id: 1, username: "oliverjam", admin: true };
+// // later
+// sessions["abcd"] = { id: 1, username: "oliverjam", admin: true };
+
+// server.get("/", (request, response) => {
+//   const sid = request.signedCookies.sid;
+//   if (sid) {
+//     const userInfo = sessions[sid];
+//     console.log(userInfo);
+//   }
+//   console.log(sid);
+//   response.send("<h1>Hello</h1>");
+// });
 
 const PORT = process.env.PORT || 4000;
 
