@@ -4,6 +4,8 @@ const server = express();
 
 const cookieParser = require("cookie-parser");
 
+const crypto = require("crypto");
+
 server.use(cookieParser("alongrandomstringnobodyelseknows"));
 
 // server.get("/example", (request, response) => {
@@ -26,23 +28,28 @@ server.use(cookieParser("alongrandomstringnobodyelseknows"));
 //   // response.redirect("/");
 // });
 
-server.get("/", (request, response) => {
-  console.log(request.signedCookies);
-  response.send("<h1>Hello</h1>");
-});
+// server.get("/", (request, response) => {
+//   console.log(request.signedCookies);
+//   response.send("<h1>Hello</h1>");
+// });
 
 // server.get("/remove", (request, response) => {
 //   response.clearCookie("hello");
 //   response.redirect("/");
 // });
 
+let sessions = {};
+
 server.get("/login", (request, response) => {
+  const sid = crypto.randomBytes(18).toString("base64");
+
   const userInfo = {
     id: 1,
     username: "MJOW1999",
     admin: true,
   };
-  response.cookie("user", userInfo, {
+  sessions[sid] = userInfo;
+  response.cookie("sid", sid, {
     httpOnly: true,
     maxAge: 1000 * 60,
     sameSite: "lax",
@@ -52,24 +59,26 @@ server.get("/login", (request, response) => {
 });
 
 server.get("/logout", (request, response) => {
-  response.clearCookie("user");
+  const sid = request.signedCookies.sid;
+  delete sessions[sid];
+  response.clearCookie("sid");
   response.redirect("/");
 });
 
-// let sessions = {};
 
-// // later
+
+// later
 // sessions["abcd"] = { id: 1, username: "oliverjam", admin: true };
 
-// server.get("/", (request, response) => {
-//   const sid = request.signedCookies.sid;
-//   if (sid) {
-//     const userInfo = sessions[sid];
-//     console.log(userInfo);
-//   }
-//   console.log(sid);
-//   response.send("<h1>Hello</h1>");
-// });
+server.get("/", (request, response) => {
+  const sid = request.signedCookies.sid;
+  if (sid) {
+    const userInfo = sessions[sid];
+    console.log(userInfo);
+  }
+  console.log(sessions);
+  response.send("<h1>Hello</h1>");
+});
 
 const PORT = process.env.PORT || 4000;
 
