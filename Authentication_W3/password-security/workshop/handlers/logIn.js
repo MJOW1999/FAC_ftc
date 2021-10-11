@@ -17,22 +17,41 @@ function get(request, response) {
   `);
 }
 
-function post(request, response) {
-  const { email, password } = request.body;
-  model
-    .getUser(email)
-    .then((user) => bcrypt.compare(password, user.password))
-    .then((match) => {
-      if (!match) {
-        throw new Error("Password mismatch");
-      } else {
-        response.send(`<h1>Welcome back, ${email}</h1>`);
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      response.send(`<h1>User not found</h1>`);
-    });
+// function post(request, response) {
+//   const { email, password } = request.body;
+//   model
+//     .getUser(email)
+//     .then((user) => bcrypt.compare(password, user.password))
+//     .then((match) => {
+//       if (!match) {
+//         throw new Error("Password mismatch");
+//       } else {
+//         response.send(`<h1>Welcome back, ${email}</h1>`);
+//       }
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//       response.send(`<h1>User not found</h1>`);
+//     });
+// }
+
+// Refactor
+
+async function post(request, response) {
+  const {email, password} = request.body;
+  const dbUser = await model.getUser(email);
+  const match = await bcrypt.compare(password, dbUser.password);
+
+  try {
+    if(!match){
+      throw new Error("Password mismatch");
+    }else{
+      response.send(`<h1>Welcome back, ${email}</h1>`);
+    }
+  }catch(error){
+    console.error(error);
+    response.send(`<h1>User not found</h1>`)
+  }
 }
 
 // 
