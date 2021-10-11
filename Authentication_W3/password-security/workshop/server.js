@@ -13,6 +13,17 @@ server.post("/sign-up", signUp.post);
 server.get("/log-in", logIn.get);
 server.post("/log-in", logIn.post);
 
-const PORT = process.env.PORT || 3000;
+const crypto = require("crypto");
+
+const password = "hunter2";
+
+const hashedPassword = crypto
+  .createHash("sha256")
+  .update(password)
+  .digest("hex");
+
+console.log(hashedPassword);
+
+const PORT = process.env.PORT || 3001;
 
 server.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
