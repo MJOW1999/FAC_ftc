@@ -1,6 +1,8 @@
 const model = require("../database/db");
 
-const crypto = require("crypto");
+//const crypto = require("crypto");
+
+const bcrypt = require("bcryptjs");
 
 function get(request, response) {
   response.send(`
@@ -15,23 +17,20 @@ function get(request, response) {
   `);
 }
 
-const SALT = "cgsaucjhdsgj";
+
 
 function post(request, response) {
   const { email, password } = request.body;
-  const hashedPassword = crypto
-  .createHash("sha256")
-  .update(SALT + password)
-  .digest("hex");
-  model
-    .createUser({ email, password: hashedPassword })
+  bcrypt
+    .hash(password, 10)
+    .then((hash) => model.createUser({ email, password: hash }))
     .then(() => {
-      response.send(`<h1>Welcome ${email}</h1>`);
+      response.send(`<h1>Thanks for signing up, ${email}</h1>`);
     })
     .catch((error) => {
       console.error(error);
       response.send(`<h1>Something went wrong, sorry</h1>`);
     });
-}
+  }
 
 module.exports = { get, post };

@@ -2,6 +2,8 @@ const model = require("../database/db");
 
 const crypto = require("crypto");
 
+const bcrypt = require("bcryptjs");
+
 function get(request, response) {
   response.send(`
     <h1>Log in</h1>
@@ -15,22 +17,13 @@ function get(request, response) {
   `);
 }
 
-const SALT = "cgsaucjhdsgj";
-
 function post(request, response) {
   const { email, password } = request.body;
-  const hashedPassword = crypto
-      .createHash("sha256")
-      .update(SALT + password)
-      .digest("hex");
   model
     .getUser(email)
-    .then((dbUser) => {
-      // const hashedPassword = crypto
-      // .createHash("sha256")
-      // .update(password)
-      // .digest("hex");
-      if (dbUser.password !== hashedPassword) {
+    .then((user) => bcrypt.compare(password, user.password))
+    .then((match) => {
+      if (!match) {
         throw new Error("Password mismatch");
       } else {
         response.send(`<h1>Welcome back, ${email}</h1>`);
@@ -41,5 +34,9 @@ function post(request, response) {
       response.send(`<h1>User not found</h1>`);
     });
 }
+
+// 
+
+
 
 module.exports = { get, post };
