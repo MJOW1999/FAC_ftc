@@ -1,5 +1,7 @@
 const model = require("../database/db");
 
+const crypto = require("crypto");
+
 function get(request, response) {
   response.send(`
     <h1>Create an account</h1>
@@ -15,8 +17,12 @@ function get(request, response) {
 
 function post(request, response) {
   const { email, password } = request.body;
+  const hashedPassword = crypto
+  .createHash("sha256")
+  .update(password)
+  .digest("hex");
   model
-    .createUser({ email, password })
+    .createUser({ email, password: hashedPassword })
     .then(() => {
       response.send(`<h1>Welcome ${email}</h1>`);
     })
