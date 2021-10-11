@@ -15,11 +15,13 @@ function get(request, response) {
   `);
 }
 
+const SALT = "cgsaucjhdsgj";
+
 function post(request, response) {
   const { email, password } = request.body;
   const hashedPassword = crypto
       .createHash("sha256")
-      .update(password)
+      .update(SALT + password)
       .digest("hex");
   model
     .getUser(email)
