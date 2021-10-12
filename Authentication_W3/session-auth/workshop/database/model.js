@@ -10,6 +10,16 @@ function createUser(email, hash, name) {
     .then((result) => result.rows[0]);
 }
 
+function createSession(sid, data) {
+  const INSERT_SESSION = `
+    INSERT INTO sessions (sid, data) VALUES ($1, $2)
+    RETURNING sid
+  `;
+  return db
+    .query(INSERT_SESSION, [sid, data])
+    .then((result) => result.rows[0].sid);
+}
+
 function getUser(email) {
   const SELECT_USER = `
     SELECT id, email, password, name FROM users WHERE email=$1
@@ -29,4 +39,5 @@ module.exports = {
   createUser,
   getUser,
   getSession,
+  createSession,
 };
