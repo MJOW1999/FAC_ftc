@@ -3,3 +3,8 @@ Server_W1/node-server-intro/node_modules/.bin/mime
 *.json
 /Database_W2/database-testing/
 Database_W2/node-error-handling/node_modules/
+Authentication_W3/password-security/node_modules
+Authentication_W3/cookie-auth/node_modules
+Authentication_W3/session-auth/node_modules
+Authentication_W3/form-validation/node_modules
+Authentication_W3/session-auth/.env
