@@ -10,18 +10,15 @@ const path = require("path");
  */
 
 function readFilePromise(filePath) {
-  const promise = new Promise((resolve, reject) => {
-    const result = fs.readFile(filePath);
-    if(fs.readFile(filePath) === null){
-      resolve(result)
-    }else{
-      reject(result);
-    }
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, (error, contents) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(contents);
+      }
+    });
   });
-  return promise;
-  
-
-  //
 }
 
 /*
