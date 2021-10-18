@@ -8,12 +8,16 @@ const PORT = process.env.PORT || 3000;
 const SECRET = "nkA$SD89&&282hd";
 
 const server = express();
+const logger = require("./middleware/logger");
+const getUser = require("./middleware/getUser");
+const checkAuth = require("./middleware/checkAuth");
+const handleError = require("./middleware/handleErrors");
+const { deleteSession, createSession } = require("./model");
 
 server.use(cookieParser(SECRET));
 server.use(express.urlencoded({ extended: false }));
-
-// this should really be in a database
-let sessions = {};
+server.use(getUser);
+server.use(logger);
 
 server.get("/", (req, res) => {
   const user = req.session;
@@ -32,31 +36,31 @@ server.get("/", (req, res) => {
 });
 
 // Challenge 1.1
-server.use((req, res, next) => {
-  const sid = req.signedCookies.sid;
-  const sessionInfo = sessions[sid];
-  if (sessionInfo) {
-    req.session = sessionInfo;
-  }
-  next();
-});
+// server.use((req, res, next) => {
+//   const sid = req.signedCookies.sid;
+//   const sessionInfo = sessions[sid];
+//   if (sessionInfo) {
+//     req.session = sessionInfo;
+//   }
+//   next();
+// });
 
 // Challenge 1.3
-function checkAuth(req, res, next) {
-  const user = req.session;
-  if (!user) {
-    res.status(401).send(`<h1>Please login <a href="/log-in">here</a></h1>`);
-  } else {
-    next();
-  }
-}
+// function checkAuth(req, res, next) {
+//   const user = req.session;
+//   if (!user) {
+//     res.status(401).send(`<h1>Please login <a href="/log-in">here</a></h1>`);
+//   } else {
+//     next();
+//   }
+// }
 
 // Challenge 2.1
-function handleErrors(error, req, res, next) {
-  console.error(error);
-  const status = error.status || 500;
-  res.status(status).send(`<h1>Oops there's been an error</h1>`);
-}
+// function handleErrors(error, req, res, next) {
+//   console.error(error);
+//   const status = error.status || 500;
+//   res.status(status).send(`<h1>Oops there's been an error</h1>`);
+// }
 
 server.get("/log-in", (req, res) => {
   res.send(`
@@ -70,20 +74,19 @@ server.get("/log-in", (req, res) => {
 
 server.post("/log-in", (req, res) => {
   const newUser = req.body;
-  const sid = crypto.randomBytes(18).toString("base64");
+  const sid = createSession(newUser);
   res.cookie("sid", sid, {
     signed: true,
     httpOnly: true,
     sameSite: "lax",
     maxAge: 600000,
   });
-  sessions[sid] = newUser;
   res.redirect("/profile");
 });
 
 server.post("/log-out", (req, res) => {
   const sid = req.signedCookies.sid;
-  delete sessions[sid];
+  deleteSession(sid);
   res.clearCookie("sid");
   res.redirect("/");
 });
@@ -109,5 +112,5 @@ server.get("/error", (req, res, next) => {
   next(fakeError);
 });
 
-server.use(handleErrors);
+server.use(handleError);
 server.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
