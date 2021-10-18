@@ -51,6 +51,14 @@ function checkAuth(req, res, next) {
   }
 }
 
+// Challenge 2.1
+function handleErrors(error, req, res, next) {
+  console.error(error);
+  res.status(500).send(`<h1>Oops there's been an error</h1>`);
+}
+
+server.use(handleErrors);
+
 server.get("/log-in", (req, res) => {
   res.send(`
     <h1>Log in</h1>
