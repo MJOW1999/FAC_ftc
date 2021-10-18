@@ -16,8 +16,7 @@ server.use(express.urlencoded({ extended: false }));
 let sessions = {};
 
 server.get("/", (req, res) => {
-  const sid = req.signedCookies.sid;
-  const user = sessions[sid];
+  const user = req.session;
   if (user) {
     res.send(`
       <h1>Hello ${user.email}</h1>
@@ -30,6 +29,16 @@ server.get("/", (req, res) => {
     res.clearCookie("sid");
     res.send(`<h1>Hello world</h1><a href="/log-in">Log in</a>`);
   }
+});
+
+// Challenge 1.1
+server.use((req, res, next) => {
+  const sid = req.signedCookies.sid;
+  const sessionInfo = sessions[sid];
+  if (sessionInfo) {
+    req.session = sessionInfo;
+  }
+  next();
 });
 
 server.get("/log-in", (req, res) => {
@@ -63,14 +72,12 @@ server.post("/log-out", (req, res) => {
 });
 
 server.get("/profile", (req, res) => {
-  const sid = req.signedCookies.sid;
-  const user = sessions[sid];
+  const user = req.session;
   res.send(`<h1>Hello ${user.email}</h1>`);
 });
 
 server.get("/profile/settings", (req, res) => {
-  const sid = req.signedCookies.sid;
-  const user = sessions[sid];
+  const user = req.session;
   res.send(`<h1>Settings for ${user.email}</h1>`);
 });
 
