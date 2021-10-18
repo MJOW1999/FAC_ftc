@@ -73,7 +73,11 @@ server.post("/log-out", (req, res) => {
 
 server.get("/profile", (req, res) => {
   const user = req.session;
-  res.send(`<h1>Hello ${user.email}</h1>`);
+  if (!user) {
+    res.status(401).send(`<h1>Please login <a href="/log-in">here</a></h1>`);
+  } else {
+    res.send(`<h1>Hello ${user.email}</h1>`);
+  }
 });
 
 server.get("/profile/settings", (req, res) => {
