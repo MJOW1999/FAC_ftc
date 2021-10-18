@@ -41,6 +41,16 @@ server.use((req, res, next) => {
   next();
 });
 
+// Challenge 1.3
+function checkAuth(req, res, next) {
+  const user = req.session;
+  if (!user) {
+    res.status(401).send(`<h1>Please login <a href="/log-in">here</a></h1>`);
+  } else {
+    next();
+  }
+}
+
 server.get("/log-in", (req, res) => {
   res.send(`
     <h1>Log in</h1>
@@ -71,16 +81,17 @@ server.post("/log-out", (req, res) => {
   res.redirect("/");
 });
 
-server.get("/profile", (req, res) => {
+server.get("/profile", checkAuth, (req, res) => {
   const user = req.session;
-  if (!user) {
-    res.status(401).send(`<h1>Please login <a href="/log-in">here</a></h1>`);
-  } else {
-    res.send(`<h1>Hello ${user.email}</h1>`);
-  }
+  // if (!user) {
+  //   res.status(401).send(`<h1>Please login <a href="/log-in">here</a></h1>`);
+  // } else {
+  //   res.send(`<h1>Hello ${user.email}</h1>`);
+  // }
+  res.send(`<h1>Hello ${user.email}</h1>`);
 });
 
-server.get("/profile/settings", (req, res) => {
+server.get("/profile/settings", checkAuth, (req, res) => {
   const user = req.session;
   res.send(`<h1>Settings for ${user.email}</h1>`);
 });
