@@ -54,10 +54,9 @@ function checkAuth(req, res, next) {
 // Challenge 2.1
 function handleErrors(error, req, res, next) {
   console.error(error);
-  res.status(500).send(`<h1>Oops there's been an error</h1>`);
+  const status = error.status || 500;
+  res.status(status).send(`<h1>Oops there's been an error</h1>`);
 }
-
-server.use(handleErrors);
 
 server.get("/log-in", (req, res) => {
   res.send(`
@@ -106,8 +105,9 @@ server.get("/profile/settings", checkAuth, (req, res) => {
 
 server.get("/error", (req, res, next) => {
   const fakeError = new Error("uh oh");
-  fakeError.status = 400;
+  fakeError.status = 403;
   next(fakeError);
 });
 
+server.use(handleErrors);
 server.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
