@@ -10,9 +10,17 @@
     <!-- This will let us write JSX and ES6 in a script tag with a special type of "text/babel" -->
     <script src="https://unpkg.com/babel-standalone@%5E6/babel.js"></script>
 
+
     <div id="root"></div>
 
     <script type="text/babel">
+
+    const pStyle = {
+      color: 'blue',
+    };
+    // const Center = {
+    //   textAlign: center,
+    // };
       const root = document.getElementById("root");
 
       function Title(props) {
@@ -28,7 +36,7 @@
         <div>
           <h2>{props.title}</h2>
           <img src={props.image} alt="Good burger"/>
-          <p>{props.children}</p>
+          <p style = {pStyle}>{props.children}</p>
         </div>)
       }
 
