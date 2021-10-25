@@ -21,8 +21,24 @@
         return <button onClick={increment}>Count is {count}</button>;
       }
 
+      function Toggle(props){
+        const [open, setOpen] = React.useState(0);
+        function toggleOpen() {
+          setOpen(!open)
+        }
+        return (
+          <div>
+            <button onClick={toggleOpen}>Toggle</button>
+            {open ? <div>{props.children}</div> : null}
+          </div>
+        )
+      }
+
       function App() {
-        return <Counter />;
+        return ( <React.Fragment>
+          <Counter />
+          <Toggle>This text is hidden until the button is clicked</Toggle>
+        </React.Fragment>);
       }
 
       ReactDOM.render(<App />, root);
