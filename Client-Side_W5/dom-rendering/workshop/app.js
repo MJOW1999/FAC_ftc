@@ -1,20 +1,39 @@
 import cats from "./dogs";
 
-const allDog = cats.map((dog) => {
-  return html`
-    <li class="card">
-      <h1>${dog.name}</h1>
-      <img src="${dog.image}" alt="Image of ${dog.name}" />
-    </li>
-  `;
+// Challenge 4 - Template
+
+const cardTemplate = document.querySelector("#cardTemplate");
+const allDogs = cats.map((dog) => {
+  const clone = template.content.cloneNode(true);
+  clone.querySelector("h1").append(dog.name);
+  clone.querySelector("img").src = dog.image;
+  clone.querySelector("img").alt = `Image of ${dog.image}`;
+  return clone;
 });
 
-document.querySelector("#app").innerHTML = html`
-  <h1>All the dogs</h1>
-  <ul>
-    ${dogElements.join("\n")}
-  </ul>
-`;
+const pageTemplate = document.querySelector("#pageTemplate");
+const clone = pageTemplate.content.cloneNode(true);
+clone.querySelector("ul").append(...allDogs);
+
+document.querySelector("#app").append(clone);
+
+// Challenge 3 - inner html
+
+// const allDog = cats.map((dog) => {
+//   return html`
+//     <li class="card">
+//       <h1>${dog.name}</h1>
+//       <img src="${dog.image}" alt="Image of ${dog.name}" />
+//     </li>
+//   `;
+// });
+
+// document.querySelector("#app").innerHTML = html`
+//   <h1>All the dogs</h1>
+//   <ul>
+//     ${dogElements.join("\n")}
+//   </ul>
+// `;
 
 // Challenge 2
 
