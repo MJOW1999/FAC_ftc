@@ -23,11 +23,25 @@
         return <div className="page">{props.children}</div>;
       }
 
+      function Card(props) {
+        return (
+        <div>
+          <h2>{props.title}</h2>
+          <img src={props.image} alt="Good burger"/>
+          <p>{props.children}</p>
+        </div>)
+      }
+
       function App() {
         return (
           <Page>
             <Title>Hello world!</Title>
             <p>Welcome to my page</p>
+            <Card 
+            title="Tasty burger"
+            image="https://source.unsplash.com/400x300/?burger">
+        That is a good burger
+        </Card>
           </Page>
         );
       }
