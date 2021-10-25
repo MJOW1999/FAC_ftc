@@ -1,10 +1,15 @@
 import cats from "./dogs";
 
-// Challenge 4 - Template
+const cardTemplate = document.createElement("template");
+cardTemplate.innerHTML = html`
+    <li class="card"></li>
+        <h1></h1>
+        <img src="" alt="" width="500" height="300"/>
+    </li>
+    `;
 
-const cardTemplate = document.querySelector("#cardTemplate");
 const allDogs = cats.map((dog) => {
-  const clone = template.content.cloneNode(true);
+  const clone = cardTemplate.content.cloneNode(true);
   clone.querySelector("h1").append(dog.name);
   clone.querySelector("img").src = dog.image;
   clone.querySelector("img").alt = `Image of ${dog.image}`;
@@ -12,8 +17,27 @@ const allDogs = cats.map((dog) => {
 });
 
 const pageTemplate = document.querySelector("#pageTemplate");
+pageTemplate.innerHTML = html` <h1>All the dogs</h1>
+  <ul></ul>`;
 const clone = pageTemplate.content.cloneNode(true);
 clone.querySelector("ul").append(...allDogs);
+
+document.querySelector("#app").append(clone);
+
+// Challenge 4 - Template
+
+// const cardTemplate = document.querySelector("#cardTemplate");
+// const allDogs = cats.map((dog) => {
+//   const clone = template.content.cloneNode(true);
+//   clone.querySelector("h1").append(dog.name);
+//   clone.querySelector("img").src = dog.image;
+//   clone.querySelector("img").alt = `Image of ${dog.image}`;
+//   return clone;
+// });
+
+// const pageTemplate = document.querySelector("#pageTemplate");
+// const clone = pageTemplate.content.cloneNode(true);
+// clone.querySelector("ul").append(...allDogs);
 
 document.querySelector("#app").append(clone);
 
