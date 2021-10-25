@@ -17,6 +17,9 @@
 
       function Toggle(props) {
         const [open, setOpen] = React.useState(false);
+        React.useEffect(() => {
+          document.title = `${open}`;
+        }, [open])
         return (
           <div>
             <button onClick={() => setOpen(!open)}>Toggle</button>
@@ -25,8 +28,24 @@
         );
       }
 
+      function MousePosition(props) {
+        const [x, setX] = React.useState(0);
+        const [y, setY] = React.useState(0);
+        React.useEffect(() => {
+          function handleMouseMove(event){
+            setX(event.x);
+            setY(event.y);
+          }
+          window.addEventListener("mousemove", handleMouseMove);
+          return () => window.removeEventListener("mousemove", handleMouseMove);
+        });
+        return (
+          <pre>{x}:{y}</pre>
+        )
+      }
+
       function App() {
-        return <Toggle>This text is hidden until the button is clicked</Toggle>;
+        return <Toggle><MousePosition/></Toggle>;
       }
 
       ReactDOM.render(<App />, root);
