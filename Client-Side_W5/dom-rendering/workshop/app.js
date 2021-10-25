@@ -1,20 +1,19 @@
 import cats from "./dogs";
+import createEl from "./create-element";
 
 const allDogs = cats.map((dog) => {
-  const h1 = document.createElement("h1");
-  h1.textContent = dog.name;
-
-  const img = document.createElement("h2");
-  img.src = dog.image;
-
-  const li = document.createElement("li");
-  li.append(h1, img);
+  const h1 = createEl("h1", {}, dog.name);
+  const img = createEl("img", {
+    src: dog.image,
+    alt: `Image of ${dog.name}`,
+    width: 500,
+    height: 300,
+  });
+  return createEl("li", { className: "card" }, h1, img);
 });
 
-const title = document.createElement("h1");
-title.textContent = "All the dogs";
+const title = createEl("h1", {}, "All the dogs");
 
-const list = document.createElement("ul");
-list.append(...dogElements);
+const list = createEl("ul", {}, ...allDogs);
 
 document.querySelector("#app").append(title, list);
