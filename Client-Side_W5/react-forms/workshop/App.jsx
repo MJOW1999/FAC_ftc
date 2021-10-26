@@ -3,6 +3,7 @@ import dishes from "../data";
 import PriceFilter from "./PriceFilter";
 import DishList from "./DishList";
 import CategoryFilter from "./CategoryFilter";
+import TitleFilter from "./TitleFilter"
 
 // const categories = [
 //   "all",
@@ -23,6 +24,9 @@ function App() {
     <main>
       <section className="filters">
         <h1>Burger Place</h1>
+        <form>
+          <TitleFilter/>
+        </form>
         <form>
           <PriceFilter min={min} setMin={setMin} max={max} setMax={setMax}/>
         </form>
