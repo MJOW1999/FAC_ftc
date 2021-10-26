@@ -18,7 +18,7 @@ import CategoryFilter from "./CategoryFilter";
 function App() {
   const [min, setMin] = React.useState(0);
   const [max, setMax] = React.useState(9);
-  const [checked, setChecked] = React.useState(false);
+  const [category, setCategory] = React.useState("all");
   return (
     <main>
       <section className="filters">
@@ -27,12 +27,12 @@ function App() {
           <PriceFilter min={min} setMin={setMin} max={max} setMax={setMax}/>
         </form>
         <form>
-          <CategoryFilter checked={checked} setChecked={setChecked} />
+          <CategoryFilter category={category} setCategory={setCategory} />
         </form>
       </section>
       <section className="dishes">
         <h2>Dishes</h2>
-        <DishList min={min} max={max} />
+        <DishList min={min} max={max} category={category}/>
       </section>
     </main>
   );
