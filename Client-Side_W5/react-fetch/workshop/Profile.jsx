@@ -4,10 +4,10 @@ function Profile(){
     const [profile, setProfile] = React.useState(0);
 
   React.useEffect(() => {
-    fetch("https://api.github.com/users/mjow1999")
+    fetch("https://api.github.com/users/" + props.name)
       .then((res) => res.json())
       .then((data) => setProfile(data));
-  }, []);
+  }, [props.name]);
 
   if (!profile) return <div>Loading...</div>;
   return (

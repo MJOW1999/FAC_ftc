@@ -4,7 +4,7 @@ import Profile from "./Profile";
 function App() {
   return (
     <main>
-      <div><Profile/></div>
+      <div><Profile name="mjow1999"/></div>
     </main>
   );
 }
