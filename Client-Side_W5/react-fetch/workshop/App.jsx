@@ -1,9 +1,10 @@
 import React from "react";
+import Profile from "./Profile";
 
 function App() {
   return (
     <main>
-      <div>GitHub user profile goes here</div>
+      <div><Profile/></div>
     </main>
   );
 }
