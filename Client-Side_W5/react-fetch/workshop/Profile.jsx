@@ -1,6 +1,7 @@
 import React from "react";
+import ReposList from "./ReposList";
 
-function Profile(){
+function Profile(props){
     const [profile, setProfile] = React.useState(0);
 
   React.useEffect(() => {
@@ -14,6 +15,8 @@ function Profile(){
     <div>
       <h1>{profile.name}</h1>
       <img src={profile.avatar_url} alt="" width="128" height="128" />
+      <h2>Repos</h2>
+      <ReposList repos_url={profile.repos_url} />
     </div>
   );
 }
