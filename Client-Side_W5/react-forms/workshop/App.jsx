@@ -3,7 +3,7 @@ import dishes from "../data";
 import PriceFilter from "./PriceFilter";
 import DishList from "./DishList";
 import CategoryFilter from "./CategoryFilter";
-import TitleFilter from "./TitleFilter"
+import TitleFilter from "./TitleFilter";
 
 // const categories = [
 //   "all",
