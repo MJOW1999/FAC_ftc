@@ -43,3 +43,24 @@
 - [repo](https://github.com/fac22/week2-AAMJ)
 
 ---
+
+## Authentication - Week 3
+
+### Resources
+
+- [Cookie Authentication](https://learn.foundersandcoders.com/workshops/cookie-auth/)
+- [Password Security](https://learn.foundersandcoders.com/workshops/password-security/)
+- [Session Authentication](https://learn.foundersandcoders.com/workshops/session-auth/)
+- [Client-side Form Validation](https://learn.foundersandcoders.com/workshops/form-validation/)
+- [Promise Creation Challenge](https://learn.foundersandcoders.com/workshops/creating-promises/)
+
+### Project
+
+- [Description](https://learn.foundersandcoders.com/course/syllabus/apprenticeship/authentication/project/): Your project this week is to build a web app that authenticates users and stores user-specific data in a PostgreSQL database.
+
+#### Final project
+
+- [Mouldy Potatoes](https://mmc12.herokuapp.com) with [@cemalokten](https://github.com/cemalokten) and [@Alisyad9](https://github.com/Alisyad9)
+- [repo](https://github.com/fac22/week3-MMC)
+
+---
