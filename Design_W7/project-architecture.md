@@ -1,5 +1,7 @@
 ## Project architecture
 
+> [Notes](https://fac-slides.netlify.app/slides/project-architecture/)
+
 - First time FAC aren't telling us what to use
 - Important to make deliberate choices
 - Try to consider alternative approaches. What are the pros and cons of each?
