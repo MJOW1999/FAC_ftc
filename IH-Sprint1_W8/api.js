@@ -29,6 +29,16 @@ async function AlbumData(album) {
     let artist = album[i].artist;
     let link = album[i].url;
     arr.push({ image, name, artist, link });
+    await fetch(
+      `http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=e836ddbce95921744c7e9efe110bcd54&artist=${artist}&album=${name}&format=json`
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Not a valid album");
+        }
+        return response.json();
+      })
+      .then((data) => console.log(data));
   }
   console.log(arr);
   arr.forEach(createCardUsingTemplate);
@@ -48,3 +58,14 @@ function createCardUsingTemplate(e) {
   domFragment.querySelector("#album_link").href = link;
   results.append(domFragment);
 }
+
+// fetch(
+//   `http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=e836ddbce95921744c7e9efe110bcd54&artist=Cher&album=Believe&format=json`
+// )
+//   .then((response) => {
+//     if (!response.ok) {
+//       throw new Error("Not a valid album");
+//     }
+//     return response.json();
+//   })
+//   .then((data) => console.log(data));
